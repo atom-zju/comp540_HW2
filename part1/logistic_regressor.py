@@ -71,8 +71,8 @@ class LogisticRegressor:
         # Compute the loss function for unregularized logistic regression        #
         # TODO: 1-2 lines of code expected                                       #
         ##########################################################################
-
-
+        hx = utils.sigmoid(X.dot(theta))
+        J = -1*(np.log(hx).T.dot(y)+(np.log(1-hx)).T.dot(1-y)) / m
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
@@ -98,7 +98,7 @@ class LogisticRegressor:
         # regression                                                             #
         # TODO: 1 line of code expected                                          #
         ##########################################################################
-
+        grad = X.T.dot((utils.sigmoid(X.dot(theta)) - y)) / m
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -124,7 +124,7 @@ class LogisticRegressor:
         # Compute the predicted outputs for X                                     #
         # TODO: 1 line of code expected                                           #
         ###########################################################################
-
+        y_pred = utils.sigmoid(X.dot(self.theta))
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -209,7 +209,8 @@ class RegLogisticRegressor:
         # Compute the loss function for regularized logistic regression          #
         # TODO: 1-2 lines of code expected                                       #
         ##########################################################################
-
+        hx = utils.sigmoid(X.dot(theta))
+        J = -1*(np.log(hx).T.dot(y)+(np.log(1-hx)).T.dot(1-y)) / m + reg * theta[1:].T.dot(theta[1:]) / (2 * m)
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -238,7 +239,8 @@ class RegLogisticRegressor:
         # regression                                                             #
         # TODO: 1 line of code expected                                          #
         ##########################################################################
-
+        grad = X.T.dot((utils.sigmoid(X.dot(theta)) - y)) / m + reg * theta / m
+        grad[0] = X[:, :1].T.dot((utils.sigmoid(X.dot(theta)) - y)) / m
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
@@ -265,7 +267,7 @@ class RegLogisticRegressor:
         # TODO: 1 line of code expected                                           #
         #                                                                         #
         ###########################################################################
-
+        y_pred = utils.sigmoid(X.dot(self.theta))
 
         ###########################################################################
         #                           END OF YOUR CODE                              #

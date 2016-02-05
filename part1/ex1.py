@@ -75,7 +75,7 @@ print "Final loss = ", log_reg1.loss(theta_opt,XX,y)
 # TODO: calculate the probability of a student being admitted with score of 45,85
 #       replace pred_prob = 0 with pred_prob = expression for that probability
 
-pred_prob = 0
+pred_prob = log_reg1.predict(np.asarray([1, 45, 85]))
 print "For a student with 45 on exam 1 and 85 on exam 2, the probability of admission = ", pred_prob
 
 # compute accuracy on the training set
@@ -83,8 +83,9 @@ print "For a student with 45 on exam 1 and 85 on exam 2, the probability of admi
 predy = log_reg1.predict(XX)
 
 # TODO: calculate the accuracy of predictions on training set (hint: compare predy and y)
+predy = np.around(predy)
 
-accuracy = 0
+accuracy = 1 - float(np.count_nonzero(y-predy)) / y.shape[0]
 print "Accuracy on the training set = ", accuracy
 
 # plot the decision surface

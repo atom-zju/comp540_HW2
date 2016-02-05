@@ -14,7 +14,7 @@ import scipy.io
 def sigmoid (z):
     sig = np.zeros(z.shape)
     # Your code here
-    
+    sig = 1/(1+np.exp(-1*z))
     # End your ode
 
     return sig
@@ -29,7 +29,7 @@ def sigmoid (z):
 def log_features(X):
     logf = np.zeros(X.shape)
     # Your code here
-    
+    logf = np.log(1+X)
     # End your ode
     return logf
 
@@ -55,7 +55,9 @@ def std_features(X):
 def bin_features(X):
     tX = np.zeros(X.shape)
     # your code here
-
+    indicator = tX > 0
+    tX[indicator] = 1
+    tX[~indicator] = 0
     # end your code
     return tX
 
@@ -91,7 +93,30 @@ def select_lambda_crossval(X,y,lambda_low,lambda_high,lambda_step,penalty):
     # Your code here
     # Implement the algorithm above.
 
+    def frange(start, end, step):
+        tmp = start
+        while(tmp < end):
+            yield tmp
+            tmp += step
 
+    lambda_vec = list(frange(lambda_low,lambda_high,lambda_step))
+    avg_accuracy = np.ones(len(lambda_vec))
+    idx = 0
+    for reg in lambda_vec:
+        avg_accuracy[idx] = 0;
+        kf = cross_validation.KFold(X.shape[0], n_folds=10)
+        for train_index, test_index in kf:
+            X_train, X_test = X[train_index], X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            if penalty == "l2":
+                lreg = linear_model.LogisticRegression(penalty=penalty,C=1.0/reg, solver='lbfgs',fit_intercept=True)
+            else:
+                lreg = linear_model.LogisticRegression(penalty=penalty,C=1.0/reg, solver='liblinear',fit_intercept=True)
+            lreg.fit(X_train,y_train)
+            predy = lreg.predict(X_test)
+            avg_accuracy[idx] += np.mean(predy==y_test)/10.0
+        idx += 1
+    best_lambda = lambda_vec[np.argmin(avg_accuracy)]
     # end your code
 
     return best_lambda

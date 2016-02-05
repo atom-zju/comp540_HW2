@@ -80,7 +80,8 @@ reg_lr1.theta = theta_opt
 predy = reg_lr1.predict(XX)
 
 # TODO: fill in the expression for accuracy of prediction
-accuracy = 0
+predy = np.around(predy)
+accuracy = 1 - float(np.count_nonzero(y-predy)) / y.shape[0]
 print "Accuracy on the training set = ", accuracy
 
 # Compare with model learned by sklearn's logistic regression with reg = 1/C
