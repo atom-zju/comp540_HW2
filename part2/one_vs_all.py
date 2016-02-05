@@ -1,5 +1,6 @@
 from sklearn import linear_model
 import numpy as np
+import utils
 
 class one_vs_allLogisticRegressor:
 
@@ -34,7 +35,14 @@ class one_vs_allLogisticRegressor:
         #   store the coefficients in a row of theta_opt                          #
         # TODO: 7-9 lines of code expected                                        #
         ###########################################################################
-
+        for label in self.labels:
+            y_tmp = 1*(y == label)
+            if penalty == "l2":
+                lreg = linear_model.LogisticRegression(penalty=penalty,C=1.0/reg, solver='lbfgs',fit_intercept=False)
+            else:
+                lreg = linear_model.LogisticRegression(penalty=penalty,C=1.0/reg, solver='liblinear',fit_intercept=False)
+            lreg.fit(X, y_tmp)
+            theta_opt[label, :] = lreg.coef_
 
 
         ###########################################################################
@@ -63,8 +71,8 @@ class one_vs_allLogisticRegressor:
         # Compute the predicted outputs for X                                     #
         # TODO: 2 lines of code expected                                          #
         ###########################################################################
-
-
+        hx = utils.sigmoid(X.dot(self.theta.T))
+        y_pred = np.argmax(hx, axis=1)
 
         ###########################################################################
         #                           END OF YOUR CODE                              #
