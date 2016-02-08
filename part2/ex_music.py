@@ -11,8 +11,8 @@ genres = ["blues","classical","country","disco","hiphop","jazz","metal","pop","r
 
 # select the CEPS or FFT representation
 
-X,y = music_utils.read_ceps(genres,MUSIC_DIR)
-#X,y = music_utils.read_fft(genres,MUSIC_DIR)
+#X,y = music_utils.read_ceps(genres,MUSIC_DIR)
+X,y = music_utils.read_fft(genres,MUSIC_DIR)
 
 # select a regularization parameter
 
