@@ -87,7 +87,7 @@ print "Accuracy on the training set = ", accuracy
 # Compare with model learned by sklearn's logistic regression with reg = 1/C
 # the regularization parameter set below can be varied (on a logarithmic scale)
 
-reg = 1.0
+reg = 10
 
 # L2 regularization with sklearn LogisticRegression
 

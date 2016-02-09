@@ -55,7 +55,7 @@ def std_features(X):
 def bin_features(X):
     tX = np.zeros(X.shape)
     # your code here
-    indicator = tX > 0
+    indicator = X > 0
     tX[indicator] = 1
     tX[~indicator] = 0
     # end your code
